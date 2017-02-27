@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Dream" Class="DatabaseLayerDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=LUNAPC\SQLEXPRESS;Initial Catalog=Dream;Persist Security Info=True;User ID=DreamCultures" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DreamConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Department" Member="Departments">
+    <Type Name="Department">
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Department_User" Member="Users" ThisKey="ID" OtherKey="DepartmentID" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserType" Member="UserTypes">
+    <Type Name="UserType">
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="UserType_User" Member="Users" ThisKey="ID" OtherKey="UserTypeID" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Dream" Member="Dreams">
+    <Type Name="Dream">
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="QuarterID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Dream_Dream_Pillar" Member="Dream_Pillars" ThisKey="ID" OtherKey="DreamID" Type="Dream_Pillar" />
+      <Association Name="Quarter_Dream" Member="Quarter" ThisKey="QuarterID" OtherKey="ID" Type="Quarter" IsForeignKey="true" />
+      <Association Name="User_Dream" Member="User" ThisKey="UserID" OtherKey="ID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Dream_Pillar" Member="Dream_Pillars">
+    <Type Name="Dream_Pillar">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DreamID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PillarID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Dream_Dream_Pillar" Member="Dream" ThisKey="DreamID" OtherKey="ID" Type="Dream" IsForeignKey="true" />
+      <Association Name="Pillar_Dream_Pillar" Member="Pillar" ThisKey="PillarID" OtherKey="ID" Type="Pillar" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pillars" Member="Pillars">
+    <Type Name="Pillar">
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Active" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Pillar_Dream_Pillar" Member="Dream_Pillars" ThisKey="ID" OtherKey="PillarID" Type="Dream_Pillar" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Position" Member="Positions">
+    <Type Name="Position">
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Position_User" Member="Users" ThisKey="ID" OtherKey="PositionID" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Quarter" Member="Quarters">
+    <Type Name="Quarter">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Active" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Association Name="Quarter_Dream" Member="Dreams" ThisKey="ID" OtherKey="QuarterID" Type="Dream" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="NumberRegistration" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="PositionID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Active" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="User_Dream" Member="Dreams" ThisKey="ID" OtherKey="UserID" Type="Dream" />
+      <Association Name="Department_User" Member="Department" ThisKey="DepartmentID" OtherKey="ID" Type="Department" IsForeignKey="true" />
+      <Association Name="Position_User" Member="Position" ThisKey="PositionID" OtherKey="ID" Type="Position" IsForeignKey="true" />
+      <Association Name="UserType_User" Member="UserType" ThisKey="UserTypeID" OtherKey="ID" Type="UserType" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
